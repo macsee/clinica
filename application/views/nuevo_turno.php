@@ -42,7 +42,7 @@
 		
 		#fecha1 { width: 40%;}
 		#fecha2 { width: 60%; margin-top: 20px;}
-		.titulo{ height: 220px;}
+		.titulo{ height: 220px;width:100%}
 
 	</style>
 	<script> 
@@ -152,7 +152,7 @@
 			}
 		});
 	};
-
+/*
 	$(function() {
         var availableTags = [
             "AAPM - Propag. Med.",
@@ -211,7 +211,7 @@
             source: availableTags
         });
     });
-
+*/
 /*	$(function() {
        
         $( "#obra" ).autocomplete({
@@ -255,7 +255,7 @@
      <!-- <span class="required_notification">* Campos obligatorios</span> -->
 	</div>	
 	<span class="required_notification">* Campos obligatorios</span>
-	<form class="contact_form" action="<?php echo base_url('index.php/main/pro_nuevo_turno#'.$hora.':00')?>" method="post" name="contact_form" id="contact_form">
+	<form class="contact_form" action="<?php echo base_url('index.php/main/pro_nuevo_turno')?>" method="post" name="contact_form" id="contact_form">
 		
     	<div style = "float:left; width:100%; height: 200px; border-bottom: 1px solid #eee; margin-top: 30px";>
 			<div style="float:left; margin-left: 12px; margin-bottom: 20px">
@@ -323,7 +323,7 @@
 					<input type="checkbox" name="tipo[]" value = "YAG" id = "YAG"/><label for="YAG"> YAG </label> 
 				</div>
 				<div class = "celda">
-					<input type="checkbox" name="tipo[]" value = "LASER" id = "LASER"/><label for="LASER"> LASER </label>
+					<input type="checkbox" name="tipo[]" value = "Laser" id = "Laser"/><label for="LASER"> Laser </label>
 				</div>
 				<div class = "celda">
 					<input type="checkbox" name="tipo[]" value = "HRT" id = "HRT"/><label for="HRT"> HRT </label>	
@@ -331,7 +331,10 @@
 			</div>
 			<div class = "fila">
 				<div class = "celda">
-					<input type="checkbox" name="tipo[]" value = "CONSULTA" id = "CONSULTA"/><label for="CONSULTA"> Consulta </label> 				
+					<input type="checkbox" name="tipo[]" value = "Consulta" id = "Consulta"/><label for="Consulta"> Consulta </label> 				
+				</div>
+				<div class = "celda_2" style = "margin-left:70px">
+					<input type="checkbox" name="tipo[]" value = "S/Cargo" id = "S/Cargo"/><label for="S/Cargo"> Sin Cargo </label> 				
 				</div>				
 			</div>
 		</div>	
@@ -344,7 +347,16 @@
 						<select id = "medico" name = "medico">
 							<?php
 								foreach ($medicos as $medico) {
-									echo '<option>'.$medico->nombre.'</option>';
+									if ($medico_selected == $medico->id_medico)
+										if ($medico->nombre == "Otro")
+											echo '<option value ="'.$medico->nombre.'" selected>'.$medico->nombre.'</option>';
+										else
+											echo '<option value ="'.$medico->nombre.'" selected>Dr. '.$medico->nombre.'</option>';
+									else
+										if ($medico->nombre == "Otro")
+											echo '<option value ="'.$medico->nombre.'">'.$medico->nombre.'</option>';
+										else
+											echo '<option value ="'.$medico->nombre.'">Dr. '.$medico->nombre.'</option>';
 								}
 							?>
 						</select>
@@ -354,9 +366,17 @@
 				</li>
 				<li>
 					<label for="obra"><font color = "red">* </font> Obra social:</label>
-						<div class="ui-widget">
-							<input type="text" size = "21" id="obra" name ="obra" required autocomplete="off">
-						</div>
+						<select id ="obra" name = "obra" required>
+								<option value = ""></option>';
+							<?php
+								foreach ($obras as $value) {
+									if (!strcasecmp($obra,$value->obra))
+										echo '<option value ="'.$value->obra.'" selected>'.$value->obra.'</option>';
+									else
+										echo '<option value ="'.$value->obra.'">'.$value->obra.'</option>';
+								}
+							?>
+						</select>	
 				</li>	
 				<li>	
 	            	<label for="tel1_1"><font color = "red">* </font> Teléfono 1:</label>
@@ -369,6 +389,8 @@
 					<input type="tel" size = "8" maxlength = "10" name="tel2_2" id ="tel2_2" autocomplete="off" pattern="[0-9].{5,}"/>
 					<input type="hidden" name="fecha" value="<?php echo $fecha ?>">
 					<input type="hidden" name="hora" value="<?php echo $hora?>">
+					<input type="hidden" id = "ficha" name="ficha" value = "">
+					<input type="hidden" id = "id_paciente" name="id_paciente" value = "">
 	        	</li>
 	        	<li>
 	            	<label for="notas">Notas:</label>

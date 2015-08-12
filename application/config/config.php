@@ -15,7 +15,8 @@
 |
 */
 
-$config['base_url']	= 'http://consultoriocco.dyndns.org/clinica/';
+//$config['base_url']	= 'http://consultoriocco.dyndns.org/clinica/';
+$config['base_url']    = "http://".$_SERVER['HTTP_HOST']."/clinica/"; 
 
 /*
 |--------------------------------------------------------------------------

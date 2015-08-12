@@ -195,7 +195,7 @@
 				echo '<img src = "'.base_url('css/images/editar.png').'"/>';
 			echo '</a>';
 		echo '</div>';
-		echo '<div class = "icono">';
+		echo '<div class = "icono" style = "cursor:pointer">';
 			echo '<a onclick = "return chequear(\''.base_url("/index.php/main/").'\', \''.$data->id.'\');">';
 				echo '<img src = "'.base_url('css/images/borrar.png').'"/>';
 			echo '</a>';
@@ -205,11 +205,13 @@
 				echo '<img src = "'.base_url('css/images/cambiar.png').'"/>';
 			echo '</a>';
 		echo '</div>';
+		/*
 		echo '<div class = "icono">';
 			echo '<a href="'.base_url('index.php/main/facturar/'.$data->id).'">';
 				echo '<img src = "'.base_url('css/images/facturar.png').'"/>';
 			echo '</a>';
 		echo '</div>';
+		*/
 		echo '<div class = "icono">';
 			echo '<a href="'.base_url('index.php/main/nuevo_turno/'.$fecha.'/'.$hora.'/'.$minutos).'">';
 				echo '<img src = "'.base_url('css/images/sobreturno.png').'"/>';

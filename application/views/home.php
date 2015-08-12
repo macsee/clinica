@@ -5,9 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>home</title>
-	<meta name="generator" content="TextMate http://macromates.com/">
 	<link href="<?php echo base_url('css/template.css')?>" rel="stylesheet" type="text/css"/>
-	<meta name="author" content="Macsee">
 	<style type="text/css">
 
 	.button_example{
@@ -30,7 +28,7 @@
 	.button_example:visited {color: none}
 	
 	.clase1{
-			padding-left: 321px;
+			padding-left: 320px;
 			padding-right: 350px;
 			padding-top: 30px;
 			padding-bottom: 30px;
@@ -82,6 +80,7 @@
 		echo '<div class = "boton_home">';
 			echo '<a class = "button_example clase1" href="'.base_url('index.php/main/cambiar_dia/'.date("Y-m-d")).'">Turnos</a>';
 		echo '</div>';
+		/*
 		echo '<div class = "boton_home">';
 			echo '<a class = "button_example clase2" href="#">Pacientes</a>';
 		echo '</div>';
@@ -91,6 +90,7 @@
 		echo '<div class = "boton_home">';
 			echo '<a class = "button_example clase4" href="#">Agendas</a>';
 		echo '</div>';
+		*/
 		echo '<div class = "boton_home">';
 			echo '<a class = "button_example clase5" href="'.base_url('index.php/main/show_calendar/').'">Calendario</a>';
 		echo '</div>';

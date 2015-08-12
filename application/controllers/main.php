@@ -1,8 +1,5 @@
 <?php
 
-/**
-* 
-*/
 class Main extends CI_Controller
 {
 	
@@ -11,11 +8,26 @@ class Main extends CI_Controller
 		parent::__construct();
 		$this->load->library('session');
 		$this->load->model('main_model');
+
 	}
 	
 	
 	function index()
-	{
+	{	
+		/*
+		$data = array(
+			'user' => "susana",
+			'nombre' => "Susana",
+			'apellido' => "Jelusich",
+			'grupo' => "Secretaria_1",
+			'id_user' => "susanaj",
+			'is_logged_in' => true
+		);
+		
+		$this->session->set_userdata($data);
+		*/
+		$this->session->set_userdata('medico_seleccionado', "todos");
+
 		$this->load->view('home');
 		//$this->cambiar_dia(date("Y-m-d"));
 	}
@@ -63,10 +75,17 @@ class Main extends CI_Controller
 	}
 	
 	function cambiar_dia($dia) {
+
+		$data['medico_selected'] = $this->session->userdata('medico_seleccionado');
+		$medico = $this->main_model->get_medico_by_id($data['medico_selected']);
+
 		$data['fecha'] = $dia;
-		$data['filas'] = $this->main_model->get_turnos($dia);
+		$data['filas'] = $this->main_model->turnos_del_dia($dia,$medico);
+		//$data['filas'] = $this->main_model->get_turnos($dia);
 		$data['horario'] = $this->main_model->get_horarios();
 		$data['notas'] = $this->main_model->get_notas($dia);
+		$data['obras'] = $this->main_model->get_obras();
+		$data['medicos'] = $this->main_model->get_medicos();
 		$array = $this->translate($dia);
 		$data['day'] = $array['day'];
 		$data['daynum'] = $array['daynum'];
@@ -74,7 +93,9 @@ class Main extends CI_Controller
 		$data['year'] = $array['year'];
 		$data['nombre_turno'] = $this->get('nombre');
 		$data['apellido_turno'] = $this->get('apellido');
-		$data['id_turno'] = $this->get('id'); 
+		$data['id_turno'] = $this->get('id');
+		$data['bloqueado'] = $this->main_model->is_bloqueado($dia,$data['medico_selected']);
+		$data['medico_selected_name'] = $medico;
 		$this->load->view('main_view', $data);
 	}
 	
@@ -101,7 +122,8 @@ class Main extends CI_Controller
 	function pro_add_notas()
 	{
 		$this->main_model->guardar_notas($_POST);
-		$this->cambiar_dia($_POST['fecha']);
+		redirect('main/cambiar_dia/'.$_POST['fecha'], 'location');
+		//$this->cambiar_dia($_POST['fecha']);
 	}
 	
 	function edit_notas($id)
@@ -132,6 +154,7 @@ class Main extends CI_Controller
 	
 	function nuevo_turno($fecha,$hora,$minutos)
 	{
+		$data['medico_selected'] = $this->session->userdata('medico_seleccionado');
 		$horario = $hora.':'.$minutos;
 		$data['fecha'] = $fecha; //$this->uri->segment(3);
 		$data['horario'] = $horario;
@@ -149,7 +172,8 @@ class Main extends CI_Controller
 	{	
 		//print_r($_POST);
 		$this->main_model->guardar_turno($_POST);
-		$this->cambiar_dia($_POST['fecha']);
+		//$this->cambiar_dia($_POST['fecha']);
+		redirect('main/cambiar_dia/'.$_POST['fecha'], 'location');
 		//$this->load->view('nuevo_turno_exito');
 	}
 	
@@ -188,7 +212,7 @@ class Main extends CI_Controller
 		$data = $this->main_model->get_turno_by($id);
 		$hora = date('H:i', strtotime($data[0]->hora));
 		$this->main_model->delete_turno($id);
-		redirect('main/cambiar_dia/'.$data[0]->fecha.'#'.$hora, 'location');
+		redirect('main/cambiar_dia/'.$data[0]->fecha, 'location');
 	}
 
 	function cambiar_turno($fecha, $hora, $minuto)
@@ -200,6 +224,19 @@ class Main extends CI_Controller
 		$data['apellido_turno'] = $this->get('apellido');
 		$this->main_model->cambiar_turno($data);
 		redirect('main/cambiar_dia/'.$fecha.'#'.$data['hora'], 'location');
+	}
+
+	function bloquear_dia() {
+
+		$this->main_model->bloquear_dia($_POST);
+		redirect('main/cambiar_dia/'.$_POST['fecha']);
+	}
+
+	function desbloquear_dia() {
+
+		//$fecha = $_POST['fecha'];
+		$this->main_model->desbloquear_dia($_POST);
+		redirect('main/cambiar_dia/'.$_POST['fecha']);
 	}
 
 	function set($var,$valor)
@@ -273,6 +310,14 @@ class Main extends CI_Controller
 		$array['busqueda'] = $this->main_model->buscar($_POST['busqueda_texto']);
 		$this->load->view('busqueda_view', $array);
 	}
+
+	function cambiar_medico($medico,$fecha,$url) {
+		//$this->main_model->setSelectedMedico($medico);
+
+		$this->session->set_userdata('medico_seleccionado', $medico);
+		redirect('main/cambiar_dia/'.$fecha);
+	}
+
 }
 
 

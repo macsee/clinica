@@ -38,7 +38,7 @@
 		</div>	
      <!-- <span class="required_notification">* Campos obligatorios</span> -->
 	</div>	
-	<form class="contact_form" action="<?php echo base_url('index.php/main/pro_add_notas#'.$fecha)?>" method="post" name="contact_form" onsubmit = "return validar(this)">
+	<form class="contact_form" action="<?php echo base_url('index.php/main/pro_add_notas/'.$fecha)?>" method="post" name="contact_form" onsubmit = "return validar(this)">
 	<ul>
 		<li>
 			<textarea name="notas" cols="40" rows="6" required></textarea>		
@@ -46,7 +46,7 @@
 		</li>	
 		<li>
 			<button class="submit" type="submit">Guardar</button>
-			<button class="cancel" type = "button" onclick = "location.href= '<?php echo base_url("/index.php/main/cambiar_dia/$fecha")?>';">Cancelar</button>
+			<button class="cancel" type = "button" onclick = "location.href= '<?php echo base_url("/index.php/main/cambiar_dia/".$fecha)?>';">Cancelar</button>
 		</li>
 	</ul>
 	</form>

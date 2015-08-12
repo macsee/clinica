@@ -150,7 +150,7 @@
 			}
 		});
 	};
-
+/*
 	$(function() {
         var availableTags = [
             "AAPM - Propag. Med.",
@@ -370,11 +370,11 @@
 				<?php }?>		 
 				</div>
 				<div class = "celda">
-				<?php if ( strstr($cadena, "LASER") <> "") {?>	
-					<input type="checkbox" name="tipo[]" value = "LASER" id = "LASER" checked/><label for="LASER"> LASER </label>
+				<?php if ( strstr($cadena, "Laser") <> "") {?>	
+					<input type="checkbox" name="tipo[]" value = "Laser" id = "Laser" checked/><label for="Laser"> Laser </label>
 				<?php }
 					else { ?>
-					<input type="checkbox" name="tipo[]" value = "LASER" id = "LASER"/><label for="LASER"> LASER </label>
+					<input type="checkbox" name="tipo[]" value = "Laser" id = "Laser"/><label for="Laser"> Laser </label>
 				<?php }?>		
 				</div>
 				<div class = "celda">
@@ -388,11 +388,19 @@
 			</div>
 			<div class = "fila">
 				<div class = "celda">
-				<?php if ( strstr($cadena, "CONSULTA") <> "") {?>
-					<input type="checkbox" name="tipo[]" value = "CONSULTA" id = "CONSULTA" checked/><label for="CONSULTA"> Consulta </label> 
+				<?php if ( strstr($cadena, "Consulta") <> "") {?>
+					<input type="checkbox" name="tipo[]" value = "Consulta" id = "Consulta" checked/><label for="Consulta"> Consulta </label> 
 				<?php }
 					else { ?>
-					<input type="checkbox" name="tipo[]" value = "CONSULTA" id = "CONSULTA"/><label for="CONSULTA"> Consulta </label> 
+					<input type="checkbox" name="tipo[]" value = "Consulta" id = "Consulta"/><label for="Consulta"> Consulta </label> 
+				<?php }?>		
+				</div>
+				<div class = "celda" style = "margin-left:70px">
+				<?php if ( strstr($cadena, "S/Cargo") <> "") {?>
+					<input type="checkbox" name="tipo[]" value = "S/Cargo" id = "S/Cargo" checked/><label for="S/Cargo"> Sin Cargo </label> 
+				<?php }
+					else { ?>
+					<input type="checkbox" name="tipo[]" value = "S/Cargo" id = "S/Cargo"/><label for="S/Cargo"> Sin Cargo </label> 
 				<?php }?>		
 				</div>			
 			</div>			
@@ -433,9 +441,21 @@
 				</li>
 				<li>
 					<label for="obra"><font color = "red">* </font> Obra social:</label>
+						<select id ="obra" name = "obra" required>
+								<option value = ""></option>';
+							<?php
+								foreach ($obras as $value) {
+									if (!strcasecmp($filas[0]->obra_social,$value->obra))
+										echo '<option value ="'.$value->obra.'" selected>'.$value->obra.'</option>';
+									else
+										echo '<option value ="'.$value->obra.'">'.$value->obra.'</option>';
+								}
+							?>
+						</select>
+						<!--
 						<div class="ui-widget">
 							<input type = "text" id="obra" size = "21" name = "obra" value = "<?php echo $filas[0]->obra_social?>" autocomplete="off" required>
-						</div>
+						</div>-->
 				</li>
 	        	<li>
 					<?php

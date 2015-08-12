@@ -7,7 +7,169 @@ class Main_model extends CI_Model
 		parent::__construct();
 	}
 	
+	function turnos_del_dia($dia, $medico)
+	{
+		if ($medico == null)
+			$query = $this->db->query("SELECT * FROM turnos WHERE fecha = '$dia' ORDER BY hora");
+		else if ($medico == "Otro")
+			$query = $this->db->query("SELECT * FROM turnos WHERE fecha = '$dia' AND medico LIKE '%Otro%' ORDER BY hora");
+		else	
+			$query = $this->db->query("SELECT * FROM turnos WHERE fecha = '$dia' AND medico = '$medico' ORDER BY hora");
+
+		if ($query->num_rows()>0)
+		{
+			foreach ($query->result() as $fila)
+			{
+				$data[] = $fila;
+			}
+			return $data;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 	
+	
+	function get_horarios()
+	{
+		$query = $this->db->query("SELECT * FROM horarios");
+		
+		foreach ($query->result() as $fila)
+		{
+			$data[] = $fila;
+		}
+		return $data;
+	}
+	
+	function get_ficha($nombre, $apellido)
+	{
+		$objetoFicha = new stdClass;
+
+		//$text = '"SELECT nroficha FROM pacientes WHERE nombre = "'.$nombre.'" AND apellido = "'.$apellido.'"';
+		$query = $this->db->query("SELECT nroficha, id FROM pacientes WHERE nombre = '$nombre' AND apellido = '$apellido'");
+		
+		if ($query->num_rows()>1)
+		{	
+			$objetoFicha->nroficha = -2;
+			$objetoFicha->id_paciente = -2;
+			//return $objetoFicha; //Busqueda manual
+		}
+		else if ($query->num_rows() == 1)
+		{
+			//$row = 	$query->row();
+			//return $row->nroficha;
+			$objetoFicha->nroficha = $query->row()->nroficha;
+			$objetoFicha->id_paciente = $query->row()->id;
+			//return $objetoFicha;
+			//return $query->row();
+
+		}
+		else if ($query->num_rows() == 0)
+		{
+			$query = $this->db->query("SELECT nroficha, id FROM pacientes WHERE apellido LIKE '%".$apellido."%'");
+
+			if ($query->num_rows()>0) {
+				$objetoFicha->nroficha = -2;
+				$objetoFicha->id_paciente = -2;
+				//return $objetoFicha; //Busqueda manual
+			}
+			else {
+				$objetoFicha->nroficha = -1;
+				$objetoFicha->id_paciente = -1;
+				//return $objetoFicha; //Nuevo Paciente
+			}	
+		}
+
+		return $objetoFicha;
+
+	}
+	
+	function get_id_paciente($nombre, $apellido, $nroficha) {
+			$query = $this->db->query("SELECT id FROM pacientes WHERE nroficha = '$nroficha' AND nombre = '$nombre' AND apellido = '$apellido'");
+			
+			if ($query->num_rows()>1)
+			{
+				return -2; //Busqueda manual
+			}
+			else if ($query->num_rows() == 1)
+			{
+				$row = $query->row();
+				return $row->id;
+			}
+			else if ($query->num_rows() == 0)
+			{
+				return -1; //Nuevo Paciente
+			}	
+	}
+
+	function bloquear_dia($array) {
+
+		$data['usuario'] = "Jelusich, Susana";
+		$data['motivo'] = $array['motivo'];
+		$data['fecha'] = $array['fecha'];
+
+		$medicos = $this->get_medicos();
+		//echo $medicos[0]->id_medico;
+		if ($array['medico'] == "todos") {
+			foreach ($medicos as $key => $value) {
+				if ($this->is_bloqueado($data['fecha'], $value->id_medico) == null) {
+					$data['medico'] = $value->id_medico;
+					$str = $this->db->insert_string('bloqueado', $data);
+					$this->db->query($str);	
+				}
+			}
+		}	
+		else {
+			$data['medico'] = $array['medico'];
+			$str = $this->db->insert_string('bloqueado', $data);
+			$this->db->query($str);		
+		}
+	}
+
+	function desbloquear_dia($array) {
+		//echo $fecha;
+		$fecha = $array['fecha'];
+
+		$medicos = $this->get_medicos();
+		//echo $medicos[0]->id_medico;
+		if ($array['medico'] == "todos") {
+			foreach ($medicos as $key => $value) {
+				$medico = $value->id_medico;
+				$this->db->delete('bloqueado', array('fecha' => $fecha, 'medico' => $medico));
+			}
+		}	
+		else {
+			$medico = $array['medico'];
+			$this->db->delete('bloqueado', array('fecha' => $fecha, 'medico' => $medico));
+		}
+
+		//$this->db->query($str);
+	}
+
+	function is_bloqueado($fecha, $medico) {
+
+		$medicos = $this->get_medicos();
+		$count = 1;
+
+		if ($medico == "todos")
+			foreach ($medicos as $key => $value) {
+				$medico = $value->id_medico;
+				$query = $this->db->get_where('bloqueado', array('fecha' => $fecha, 'medico' => $medico));
+				$count *= $query->num_rows();
+			}			
+		else {
+			$query = $this->db->get_where('bloqueado', array('fecha' => $fecha, 'medico' => $medico));
+			$count *= $query->num_rows();
+		}	
+
+		if ($count>0)
+			return $query->row();
+
+		return null;
+	}
+
+	/*
 	function turnos_del_dia($dia)
 	{
 		$query = $this->db->query("SELECT * FROM turnos WHERE fecha = '$dia' ORDER BY hora");
@@ -80,7 +242,7 @@ class Main_model extends CI_Model
 		
 	}
 	
-	
+	*/
 	function get_obras()
 	{
 		$query = $this->db->query("SELECT * FROM obras_sociales");
@@ -95,13 +257,26 @@ class Main_model extends CI_Model
 	
 	function get_medicos()
 	{
-		$query = $this->db->query("SELECT nombre FROM medicos ORDER BY id");
+		$query = $this->db->query("SELECT * FROM medicos ORDER BY id");
 		
 		foreach ($query->result() as $resultado)
 		{
 			$data[] = $resultado;
 		}
 		return $data;
+	}
+
+	function get_medico_by_id($id) {
+		$query = $this->db->query("SELECT nombre FROM medicos WHERE id_medico = '$id'");
+		if ($query->num_rows > 0 )
+			return $query->row()->nombre;
+		else
+			return NULL;
+	}
+
+	function get_config_medico($medico) {
+		$query = $this->db->query("SELECT config FROM medicos WHERE nombre = '$medico'");
+		 return $query->row();
 	}
 	
 	function guardar_turno($array)
@@ -135,28 +310,44 @@ class Main_model extends CI_Model
 		$data['fecha'] = $array['fecha'];
 		$data['hora'] = $array['hora_turno'];
 		$data['citado'] = $array['hora_cita'];
-		$data['tipo'] = $cadena;		
+		$data['tipo'] = $cadena;
+
+		if ($array['ficha'] == "") {
+			$result = $this->get_ficha($data['nombre'], $data['apellido']);
+			$data['ficha'] = $result->nroficha;
+			$data['id_paciente'] = $result->id_paciente;
+		}
+		else {
+			$data['ficha'] = $array['ficha'];
+			$data['id_paciente'] = $array['id_paciente'];
+			//$data['id_paciente'] = $array['id'];	
+		}	
+
 		if ( ($array['medico'] == "Otro") & ($array['otro'] <> "")) {
 
 			$medico_1 = ucwords($array['otro']);
 			$medico_1 = ucwords(strtolower($medico_1));
-
+		/*
 			if ( strpos($medico_1, 'Dr.') === false ) {
 				$medico_1 = 'Dr. '.$medico_1;
 			}		
-
+		*/
 			$data['medico'] = $array['medico'].' - '.$medico_1;
 		}
 		else {
 			$data['medico'] = $array['medico'];
 		}
 		$data['notas'] = $array['notas'];
+		//$data['usuario'] = $this->session->userdata("apellido").', '.$this->session->userdata("nombre");
+		$data['usuario'] = "Jelusich, Susana";
 		$str = $this->db->insert_string('turnos', $data);
 		$this->db->query($str);
 	}
 	
 	function guardar_notas($array)
 	{
+		//$data['usuario'] = $this->session->userdata("apellido").', '.$this->session->userdata("nombre");
+		$data['usuario'] = "Jelusich, Susana";
 		$data['fecha'] = $array['fecha'];
 		$data['nota'] = $array['notas'];
 		$str = $this->db->insert_string('notas', $data);
@@ -198,7 +389,9 @@ class Main_model extends CI_Model
 	}
 	
 	function actualizar_notas($array)
-	{
+	{	
+		//$data['usuario'] = $this->session->userdata("apellido").', '.$this->session->userdata("nombre");
+		$data['usuario'] = "Jelusich, Susana";
 		$data['nota'] = $array['notas'];
 		$where = "id = '".$array['id']."'";
 		$str = $this->db->update_string('notas', $data, $where);
@@ -242,22 +435,35 @@ class Main_model extends CI_Model
 		$data['hora'] = $array['hora'];
 		$data['citado'] = $array['hora_citado'];
 		$data['tipo'] = $cadena;
-		$data['ficha'] = 0;
+		
+		if ($array['ficha'] == "") {
+			$result = $this->get_ficha($data['nombre'], $data['apellido']);
+			$data['ficha'] = $result->nroficha;
+			$data['id_paciente'] = $result->id_paciente;
+		}
+		else {
+			$data['ficha'] = $array['ficha'];
+			$data['id_paciente'] = $array['id_paciente'];
+			//$data['id_paciente'] = $array['id'];	
+		}		
 		
 		if ( ($array['medico'] == "Otro") & ($array['otro'] <> "")) {
 			$medico_1 = ucwords($array['otro']);
 			$medico_1 = ucwords(strtolower($medico_1));
 
+			/*
 			if ( strpos($medico_1, 'Dr.') === false ) {
 				$medico_1 = 'Dr. '.$medico_1;
 			}		
-
+			*/
 			$data['medico'] = $array['medico'].' - '.$medico_1;
 		}
 		else {
 			$data['medico'] = $array['medico'];
 		}
 		
+		//$data['usuario'] = $this->session->userdata("apellido").', '.$this->session->userdata("nombre");
+		$data['usuario'] = "Jelusich, Susana";
 		$data['notas'] = $array['notas'];
 		$where = "id = '".$array['id']."'";
 		$str = $this->db->update_string('turnos', $data, $where);
@@ -316,28 +522,32 @@ class Main_model extends CI_Model
 		}
 	}
 
-	function cantidad_turnos_man($fecha, $medico) 
+	function cantidad_turnos_man($fecha,$medico_seleccionado) 
 	{
-		$query = $this->db->query("SELECT * FROM turnos WHERE fecha = '$fecha' AND hora <= '13:00:00' and medico = '$medico' ORDER BY hora");
+		//$medico_seleccionado = $this->session->userdata('medico_seleccionado');
+		$medico = $this->main_model->get_medico_by_id($medico_seleccionado);
 
+		if ($medico == null)
+			$query = $this->db->query("SELECT * FROM turnos WHERE fecha = '$fecha' AND hora <= '14:00:00' ORDER BY hora");
+		else {
+			//$medico = $this->main_model->get_medico_by_id($medico_seleccionado);
+			$query = $this->db->query("SELECT * FROM turnos WHERE medico = '$medico' AND fecha = '$fecha' AND hora <= '14:00:00' ORDER BY hora");
+		}	
 		return $query->num_rows();
 	}
 
-	function cantidad_turnos_tarde($fecha, $medico) 
+	function cantidad_turnos_tarde($fecha, $medico_seleccionado) 
 	{
-		$query = $this->db->query("SELECT * FROM turnos WHERE fecha = '$fecha' AND hora > '13:00:00' and medico = '$medico' ORDER BY hora");
+		//$medico_seleccionado = $this->session->userdata('medico_seleccionado');
+		$medico = $this->main_model->get_medico_by_id($medico_seleccionado);
 
+		if ($medico == null)
+			$query = $this->db->query("SELECT * FROM turnos WHERE fecha = '$fecha' AND hora > '14:00:00' ORDER BY hora");	
+		else {
+			//$medico = $this->main_model->get_medico_by_id($medico_seleccionado);
+			$query = $this->db->query("SELECT * FROM turnos WHERE medico = '$medico' AND fecha = '$fecha' AND hora > '14:00:00' ORDER BY hora");
+		}
 		return $query->num_rows();
-	}
-
-	function cambiar_turno($array)
-	{
-		$data['fecha'] = $array['fecha'];
-		$data['hora'] = $array['hora'];
-		$where = "id = '".$array['id']."'";
-		$this->setear('id',"");
-		$str = $this->db->update_string('turnos', $data, $where);
-		$this->db->query($str);
 	}
 
 	function anular_cambio()
@@ -421,8 +631,9 @@ class Main_model extends CI_Model
 		$this->db->query($str);
 	}
 
-	function create_calendar($ano = null, $mes = null)
+function create_calendar($ano = null, $mes = null)
 	{
+		$algo = $this->uri->segment(4);
 		$conf = array (
 			'show_next_prev' => true,
 			'next_prev_url' => base_url().'index.php/main/show_calendar'
@@ -434,9 +645,9 @@ class Main_model extends CI_Model
 
    		{heading_row_start}<tr class = "cabecera">{/heading_row_start}
 
-   		{heading_previous_cell}<th class = "previous"><a href="{previous_url}"><img src = "http://consultoriocco.dyndns.org/clinica/css/images/prev_month.png"/></a></th>{/heading_previous_cell}
+   		{heading_previous_cell}<th class = "previous"><a href="{previous_url}"><img src = "'.base_url().'css/images/prev_month.png"/></a></th>{/heading_previous_cell}
    		{heading_title_cell}<th  colspan="{colspan}">{heading}</th>{/heading_title_cell}
-   		{heading_next_cell}<th class = "next"><a href="{next_url}"><img src = "http://consultoriocco.dyndns.org/clinica/css/images/next_month.png"/></a></th>{/heading_next_cell}
+   		{heading_next_cell}<th class = "next"><a href="{next_url}"><img src = "'.base_url().'css/images/next_month.png"/></a></th>{/heading_next_cell}
 
 		{heading_row_end}</tr>{/heading_row_end}
 
@@ -472,58 +683,66 @@ class Main_model extends CI_Model
    		{
 
    			$fecha = $mesano.'-'.$dia;
-   			$cant_turnos_manana = $this->cantidad_turnos_man($fecha, 'Dr. Jelusich');
-   			$cant_turnos_tarde = $this->cantidad_turnos_tarde($fecha, 'Dr. Jelusich');
-   			$doble_jornada = 0;	
+
+   			$medico_seleccionado = $this->session->userdata('medico_seleccionado');
+
+   			$cant_turnos_manana = $this->cantidad_turnos_man($fecha, $medico_seleccionado);
+   			$cant_turnos_tarde = $this->cantidad_turnos_tarde($fecha, $medico_seleccionado);
+   			$doble_jornada = 0;
+
+   			$medico_seleccionado = $this->session->userdata('medico_seleccionado');
 
    			if ( date("l", strtotime($fecha)) == "Tuesday" )
    			{
    				$doble_jornada = 1;	
    			}
    			
-   			if ($doble_jornada == 1)
-   			{
+   			//if ($doble_jornada == 1)
+   			//{
+   				if ($this->is_bloqueado($fecha,$medico_seleccionado) != null)
+   					$cal_data[$dia] = '<div class = "celda bloqueada" onclick = "parent.location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
+   				else {
 
-   				if ( (($cant_turnos_manana > 0) & ($cant_turnos_manana < 6)) | (($cant_turnos_tarde > 0) & ($cant_turnos_tarde < 6)) )
-   				{
-   					
-   					$cal_data[$dia] = '<div class = "celda vacia" onclick = "location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
-   				}
-   				elseif ( ( ($cant_turnos_manana > 5) & ($cant_turnos_manana < 9) ) | ( ($cant_turnos_tarde > 5) & ($cant_turnos_tarde < 9) ) )
-   				{
-   					$cal_data[$dia] = '<div class = "celda media" onclick = "location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
-   				}
-   				elseif ( ($cant_turnos_manana > 8) | ($cant_turnos_tarde > 8) )
-   				{
-   					$cal_data[$dia] = '<div class = "celda llena" onclick = "location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
-   				}
-   				elseif ( ($cant_turnos_manana == 0) & ($cant_turnos_tarde == 0) )
-   				{
-   					$cal_data[$dia] = '<div class = "celda" onclick = "location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
-   				}
-   			}
-   			else
+	   				if ( (($cant_turnos_manana > 0) & ($cant_turnos_manana < 7)) | (($cant_turnos_tarde > 0) & ($cant_turnos_tarde < 7)) )
+	   				{
+	   					$cal_data[$dia] = '<div class = "celda vacia" onclick = "parent.location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
+	   				}
+	   				if ( ( ($cant_turnos_manana > 6) & ($cant_turnos_manana < 12) ) | ( ($cant_turnos_tarde > 6) & ($cant_turnos_tarde < 12) ) )
+	   				{
+	   					$cal_data[$dia] = '<div class = "celda media" onclick = "parent.location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
+	   				}
+	   				if ( ($cant_turnos_manana > 11) | ($cant_turnos_tarde > 11) )
+	   				{
+	   					$cal_data[$dia] = '<div class = "celda llena" onclick = "parent.location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
+	   				}
+	   				if ( ($cant_turnos_manana == 0) & ($cant_turnos_tarde == 0) )
+	   				{
+	   					$cal_data[$dia] = '<div class = "celda" onclick = "parent.location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
+   					}
+   				}	
+   			//}
+   		/*	else
    			{
    				if ( ($cant_turnos_manana > 0) & ($cant_turnos_manana < 6) )
    				{
    					
-   					$cal_data[$dia] = '<div class = "celda vacia" onclick = "location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
+   					$cal_data[$dia] = '<div class = "celda vacia" onclick = "parent.location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
    				}
    				elseif ( ($cant_turnos_manana > 5) & ($cant_turnos_manana < 9) )
    				{
-   					$cal_data[$dia] = '<div class = "celda media" onclick = "location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
+   					$cal_data[$dia] = '<div class = "celda media" onclick = "parent.location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
    				}
    				elseif ( ($cant_turnos_manana > 8) )
    				{
-   					$cal_data[$dia] = '<div class = "celda llena" onclick = "location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
+   					$cal_data[$dia] = '<div class = "celda llena" onclick = "parent.location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
    				}
    				elseif ( ($cant_turnos_manana == 0) )
    				{
-   					$cal_data[$dia] = '<div class = "celda" onclick = "location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
+   					$cal_data[$dia] = '<div class = "celda" onclick = "parent.location.href=\''.base_url("/index.php/main/cambiar_dia/".$fecha).'\';" style="cursor: pointer;">'.$dia.'</a>';
    				}
 
    			}	
-   		
+		*/   		
    		}
 			$this->load->library('calendar', $conf);
 		

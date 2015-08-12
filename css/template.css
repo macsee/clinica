@@ -43,8 +43,8 @@ body {
 #notas_dia a {color: #F1F1F1; font-size: 60px;}
 #notas_dia li {color: #F1F1F1; margin-bottom: 30px;}
 
-#fecha_dia {float:left; width: 100%; margin-left: 10px; float: left; font-size: 100px;}
-#fecha_mes_ano {float:left; width: 700px; margin-left: 10px; float: left; font-size: 60px}
+#fecha_dia {float:left;margin-left: 10px; float: left; font-size: 100px;}
+#fecha_mes_ano {float:left;margin-left: 30px; float: left; font-size: 60px;margin-top:40px;}
 
 
 #menu a:visited {color: black} 
@@ -110,7 +110,8 @@ body {
 
 .fila_ocupada {
 	width: 100%;
-	background: url('images/background_stripes.gif');//#9C9C9C;//#d4e7ff;
+	//background: url('images/background_stripes.gif');//#9C9C9C;//#d4e7ff;
+	//background: #E4E2E2;
 	min-height: 580px;
 	padding-top: 20px;
 	margin-bottom: 10px;
@@ -174,27 +175,27 @@ a{ font-size: 40px}
 .campo_ficha{ font-size: 40px; margin-top: 10px; margin-left: 10px; font-weight: bold; float: left; width: 35%; height: 60px;}
 .valores{float: left; width: 65%; height: 60px;}
 
-.valor_ficha{float: left; width: 500px; height: 60px;}
+.valor_ficha{float: left; width: 450px; height: 60px;}
 .valor_ficha a{text-decoration: none; font-size: 50px; font-weight: bold; color: #97BFD9;//#9C9C9C; }
-.tipo {height: 160px;}
+.tipo {height: 200px;}
 
 .campos_vista{font-weight: bold; float: left; width: 40%; height: 90px;}
 .valores_vista{float: left;height: 90px; width: 60%}
 .valores_vista a{text-decoration: none; font-size: 40px; font-weight: bold; color: #97bfd9; }
 .tipo_vista {height: 180px;}
 
-.count {float: right; width: 60px; height: 60px; padding-top: 0px; background: #ff2600; text-align: center;border-radius: 50px; font-size: 40px; margin-right: 30px; margin-top: 20px}
+.count {color:white;float: left; width: 60px; height: 60px; padding-top: 0px; background: #ff2600; text-align: center;border-radius: 50px; font-size: 40px; margin-right: 30px; margin-top: 40px}
 .fila_superior{width: 100%; float: left}
 .fila_inferior{width: 100%; float: left}
 .botones {font-size: 40px; float: left; width: 100%; height: 100px; margin-top: 5px; padding-top: 20px; background-color: #97BFD9}
 
-#dia_anterior {float: left; margin-left: 20px; margin-right: 20px; margin-top: 20px}
+#dia_anterior {float: left; margin-left: 20px; margin-top: 10px}
 #hoy {float: left; margin-left: 20px; margin-right: 20px; margin-top: 20px}
-#dia_siguiente {float: left; margin-left: 20px; margin-right: 200px; margin-top: 20px}
-#principal {float: left; margin-left: 20px; margin-right: 20px; margin-top: 20px}
-#agregar_notas {float: left; margin-left: 20px; margin-right: 20px; margin-top: 20px}
-#calendario {float: left; margin-left: 20px; margin-top: 20px}
-#menu {height: 380px; background: #97BFD9;//#2D2D2D; //#00224C;}
+#dia_siguiente {float: left; margin-right: 100px; margin-top: 10px}
+#principal {float: left; margin-left: 30px; margin-right: 20px; margin-top: 16px}
+#agregar_notas {float: left; margin-left: 30px;margin-top: 10px}
+#calendario {float: left; margin-left: 30px; margin-top: 20px}
+#menu {height: 410px; background: #97BFD9;//#2D2D2D; //#00224C;}
 
 .icono {float: left; margin-left: 40px; margin-right: 30px}
 .calendar {font-family: Helvetica, Arial, Sans-Serif; font-size: 40px}
@@ -245,6 +246,20 @@ table.calendar {margin: auto}
 	box-shadow: 0 0 10px 5px #835308 inset; 
 	-webkit-box-shadow:0 0 10px 5px #835308 inset ;
 	-moz-box-shadow: 0 0 10px 5px #835308 inset;
+}
+
+.bloqueada {
+	background-image: url("./images/lock_stroke_24x32.png");
+	background-repeat: no-repeat;
+	//background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
+	//background: -webkit-linear-gradient(top, #68b12f, #50911e);
+	//background: -moz-linear-gradient(top, #68b12f, #50911e);
+}
+.bloqueada:hover {opacity:.85;}
+.bloqueada:active {
+	box-shadow: 0 0 10px 5px #356b0b inset; 
+	-webkit-box-shadow:0 0 10px 5px #356b0b inset ;
+	-moz-box-shadow: 0 0 10px 5px #356b0b inset;
 }
 
 .titulo_turno { 
@@ -301,13 +316,15 @@ table.calendar {margin: auto}
     background: #444;
     background: rgba(0,0,0,.2);
     border-radius: 10px;
+    width: 100%;
     box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(241,241,241,.4);
 }
  
 /* Form text input */
  
 .form-wrapper input {
-    width: 550px;
+	width: 80%;
+    //width: 550px;
     height: 60px;
     padding: 10px 5px;
     float: left;    
