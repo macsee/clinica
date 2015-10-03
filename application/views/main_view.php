@@ -43,6 +43,14 @@
 
 	$(document).ready(function()
 	{	
+		$("#cita_hora").keyup(function() {
+			
+   			if($(this).val().length == $(this).attr('maxlength')) {
+        		$("#cita_minutos").focus();
+    		}
+			
+		});
+		
 		$( "#medico" ).change(function () {
 				var base_url = '<?php echo base_url(); ?>';
 	    		var str = "";
@@ -92,20 +100,29 @@
 			});
 
         });
-	});  	
+	}); 
 
 
-    function chequear(url,data) {
+    function chequear(fecha,hora,minutos) {
+
+   		$("#cita_hora").val("");
+   		$("#cita_minutos").val("");
+
+   		$("#form_fecha").val(fecha);
+   		$("#form_hora").val(hora);
+   		$("#form_minutos").val(minutos);
+
         $( "#dialog-confirm" ).dialog({
 			autoOpen: true,
             resizable: false,
 			width: 800,
-            height:380,
+            height: 450,
             modal: true,
             buttons: {
                 "Si": function() {
-					var x = url+"/cambiar_turno/"+data;
-					location.href = x;
+                	$("#form_cambiar").submit();
+					//var x = url+"/cambiar_turno/"+data;
+					//location.href = x;
                 },
 				"No": function() {
                     $( this ).dialog( "close" );
@@ -284,11 +301,22 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 </div>	
 
 <div id="dialog-confirm" title="¿Cambiar turno?" style = "display:none">
-<?php
-	if (isset($nombre_turno)) {
-		echo $apellido_turno.', '.$nombre_turno;
-	}
-?>
+	<form action="<?php echo base_url('index.php/main/cambiar_turno')?>" method="post" name="form_cambiar" id="form_cambiar">
+		<?php
+			if (isset($nombre_turno)) {
+				echo str_replace('%20', ' ', $apellido_turno.', '.$nombre_turno);
+			}
+		?>
+		<div style = "margin-top:10px">
+			<b>Citado:</b>
+			<input type="text" size="2" id = "cita_hora" name="cita_hora" pattern="[0-9].{1,}" autocomplete="off" maxlength="2" required=""> :
+			<input type="text" size="2" id = "cita_minutos" name="cita_minutos" pattern="[0-9].{1,}" autocomplete="off" maxlength="2" required="">
+			<input type="hidden" name="form_fecha" id ="form_fecha">
+			<input type="hidden" name="form_hora" id ="form_hora">
+			<input type="hidden" name="form_minutos" id ="form_minutos">
+			<b> hs</b>
+		</div>
+	</form>
 </div>
 <div id="desbloquear_dia" title="¿Desbloquear agenda?" style = "display:none">
 	<form id = "form_desbloquear" action="<?php echo base_url('index.php/main/desbloquear_dia/')?>" method="post">
@@ -496,7 +524,7 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 				
 					if ($id_turno <> NULL)
 					{				
-						echo '<div class = "fila_vacia" style="cursor: pointer" onclick = "return chequear(\''.base_url("/index.php/main/").'\', \''.$data.'\');">';
+						echo '<div class = "fila_vacia" style="cursor: pointer" onclick = "return chequear(\''.$fecha.'\', \''.$hora.'\', \''.$minutos.'\');">';
 					}	
 					else
 					{

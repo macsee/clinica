@@ -215,15 +215,18 @@ class Main extends CI_Controller
 		redirect('main/cambiar_dia/'.$data[0]->fecha, 'location');
 	}
 
-	function cambiar_turno($fecha, $hora, $minuto)
+	function cambiar_turno()
 	{
-		$data['fecha'] = $fecha;
-		$data['hora'] = $hora.':'.$minuto;
+		$data['fecha'] = $_POST['form_fecha'];
+		$data['hora'] = $_POST['form_hora'].':'.$_POST['form_minutos'];
+		$data['citado'] = $_POST['cita_hora'].':'.$_POST['cita_minutos'];
+	
 		$data['id'] = $this->get('id');
 		$data['nombre_turno'] = $this->get('nombre');
 		$data['apellido_turno'] = $this->get('apellido');
 		$this->main_model->cambiar_turno($data);
-		redirect('main/cambiar_dia/'.$fecha.'#'.$data['hora'], 'location');
+		redirect('main/cambiar_dia/'.$data['fecha'], 'location');
+		//redirect('main/cambiar_dia/'.$fecha.'#'.$data['hora'], 'location');
 	}
 
 	function bloquear_dia() {

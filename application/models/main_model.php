@@ -550,6 +550,19 @@ class Main_model extends CI_Model
 		return $query->num_rows();
 	}
 
+	function cambiar_turno($array)
+	{
+		$data['fecha'] = $array['fecha'];
+		$data['hora'] = $array['hora'];
+		$data['citado'] = $array['citado'];
+		$where = "id = '".$array['id']."'";
+		$this->setear('nombre',"");
+		$this->setear('apellido',"");
+		$this->setear('id',"");
+		$str = $this->db->update_string('turnos', $data, $where);
+		$this->db->query($str);
+	}
+
 	function anular_cambio()
 	{
 		$this->setear('id',"");
