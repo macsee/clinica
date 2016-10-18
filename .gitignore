@@ -1,1 +1,3 @@
 application/config/*
+
+application/config/database.php

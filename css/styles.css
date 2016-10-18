@@ -3,7 +3,7 @@
 @font-face {font-family: 'Museo-300';src: url('webfonts/23EDA7_0_0.eot');src: url('webfonts/23EDA7_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/23EDA7_0_0.woff') format('woff'),url('webfonts/23EDA7_0_0.ttf') format('truetype');}
 @font-face {font-family: 'Droid';src: url('webfonts/droidsans-webfont.eot');src: url('webfonts/droidsans-webfont.eot?#iefix') format('embedded-opentype'),url('webfonts/droidsans-webfont.woff') format('woff'),url('webfonts/droidsans-webfont.ttf') format('truetype');}
 @font-face {font-family: 'League_Gothic';src: url('webfonts/League_Gothic-webfont.eot');src: url('webfonts/League_Gothic-webfont.eot?#iefix') format('embedded-opentype'),url('webfonts/League_Gothic-webfont.woff') format('woff'),url('webfonts/League_Gothic-webfont.ttf') format('truetype');}
-@font-face { font-family: 'Segoe'; src: url('webfonts/SEGOEUI.ttf'); } 
+@font-face { font-family: 'Segoe'; src: url('webfonts/SEGOEUI.ttf'); }
 
 
 *:focus {outline: none;}
@@ -17,13 +17,13 @@
 #tabla {
 	float: left;
 	width: 100%;
-	height: 350px;
+	height: 400px;
 	margin-top: 25px;
 }
 
 .celda {
 	float: left;
-	width: 200px;
+	width: 220px;
 	margin-left: 15px;
 }
 
@@ -55,8 +55,8 @@
 	float: left;
 }
 
-.titulo 
-{ 	
+.titulo
+{
 	height: 300px;
 	color: white;
 	font-weight: normal;
@@ -64,7 +64,7 @@
 	font-size: 70px;
 	background: #97BFD9;
 	padding-left: 30px;
-	
+
 }
 
 #fecha1 {
@@ -119,11 +119,11 @@ body {
 	padding:0px;
 }
 .contact_form li{
-	padding:12px; 
+	padding:12px;
 	margin-bottom: 30px;
 	border-bottom:1px solid #eee;
 	position:relative;
-} 
+}
 /*.contact_form li:first-child, .contact_form li:last-child {
 	border-bottom:1px solid #777;
 }
@@ -134,8 +134,8 @@ body {
 	display: inline;
 }
 .required_notification {
-	color:#d45252; 
-	margin:5px 0 0 0; 
+	color:#d45252;
+	margin:5px 0 0 0;
 	display:inline;
 	float:right;
 }
@@ -149,15 +149,15 @@ body {
 	padding:3px;
 }
 .contact_form input {
-	height:70px; 
-	//width:220px; 
+	height:70px;
+	//width:220px;
 	font-size: 60px;
 	padding:5px 8px;
 }
 
 .contact_form select {
 	height:80px;
-	width: 500px; 
+	width: 500px;
 	font-size: 50px;
 	padding:5px 8px;
 }
@@ -165,24 +165,24 @@ body {
 .contact_form button {margin-left:120px;}
 
 	/* form element visual styles */
-	.contact_form input, .contact_form textarea { 
+	.contact_form input, .contact_form textarea {
 		border:1px solid #aaa;
 		box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
 		border-radius:2px;
 		padding-right:30px;
-/*		-moz-transition: padding .25s; 
-		-webkit-transition: padding .25s; 
+/*		-moz-transition: padding .25s;
+		-webkit-transition: padding .25s;
 		-o-transition: padding .25s;
 		transition: padding .25s; */
 	}
 	.contact_form input:focus, .contact_form textarea:focus {
-		background: #fff; 
-		border:1px solid #555; 
-		box-shadow: 0 0 3px #aaa; 
+		background: #fff;
+		border:1px solid #555;
+		box-shadow: 0 0 3px #aaa;
 /*		padding-right:70px; */
 	}
 
-/* === HTML5 validation styles === */	
+/* === HTML5 validation styles === */
 .contact_form input:required, .contact_form textarea:required {
 	background: #fff //url(images/red_asterisk.png) no-repeat 98% center;
 }
@@ -218,7 +218,7 @@ body {
 .contact_form input:focus + .form_hint {display: inline;}
 .contact_form input:required:valid + .form_hint {background: #28921f;}
 .contact_form input:required:valid + .form_hint::before {color:#28921f;}
-	
+
 /* === Button Style === */
 button.submit {
 
@@ -251,16 +251,16 @@ button.submit {
 }
 button.submit:hover {
 	opacity:.85;
-	cursor: pointer; 
+	cursor: pointer;
 }
 button.submit:active {
 	border: 1px solid #20911e;
-	box-shadow: 0 0 10px 5px #356b0b inset; 
+	box-shadow: 0 0 10px 5px #356b0b inset;
 	-webkit-box-shadow:0 0 10px 5px #356b0b inset ;
 	-moz-box-shadow: 0 0 10px 5px #356b0b inset;
 	-ms-box-shadow: 0 0 10px 5px #356b0b inset;
 	-o-box-shadow: 0 0 10px 5px #356b0b inset;
-	
+
 }
 
 
@@ -295,16 +295,16 @@ button.cancel {
 }
 button.cancel:hover {
 	opacity:.85;
-	cursor: pointer; 
+	cursor: pointer;
 }
 button.cancel:active {
 	border: 1px solid #911e1e;
-	box-shadow: 0 0 10px 5px #6b0b0b inset; 
+	box-shadow: 0 0 10px 5px #6b0b0b inset;
 	-webkit-box-shadow:0 0 10px 5px #6b0b0b inset ;
 	-moz-box-shadow: 0 0 10px 5px #6b0b0b inset;
 	-ms-box-shadow: 0 0 10px 5px #6b0b0b inset;
 	-o-box-shadow: 0 0 10px 5px #6b0b0b inset;
-	
+
 }
 
 button.delete {
@@ -338,18 +338,17 @@ button.delete {
 }
 button.delete:hover {
 	opacity:.85;
-	cursor: pointer; 
+	cursor: pointer;
 }
 button.delete:active {
 	border: 1px solid #1e5791;
-	box-shadow: 0 0 10px 5px #0b3b6b inset; 
+	box-shadow: 0 0 10px 5px #0b3b6b inset;
 	-webkit-box-shadow:0 0 10px 5px #0b3b6b inset ;
 	-moz-box-shadow: 0 0 10px 5px #0b3b6b inset;
 	-ms-box-shadow: 0 0 10px 5px #0b3b6b inset;
 	-o-box-shadow: 0 0 10px 5px #0b3b6b inset;
-	
+
 }
 
 #test {margin-left: 307px; margin-top: 20px; margin-bottom: 30px}
 #test input {width: 460px;}
-

@@ -21,74 +21,74 @@
 	    * html .ui-autocomplete {
 	        height: 100px;
 	    }
-		
+
 		.ui-widget {
 			font-size: 30pt;
 		}
-		
+
 		.ui-dialog {
 			//position: relative;
 			margin: auto;
 			font-size: 25pt;
 			text-align: center;
 		}
-		
-		.ui-dialog .ui-dialog-buttonpane { 
+
+		.ui-dialog .ui-dialog-buttonpane {
 		    text-align: center;
 		}
-		.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset { 
+		.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
 		    float: none;
 		}
-		
+
 		#fecha1 { width: 40%;}
 		#fecha2 { width: 60%; margin-top: 20px;}
 		.titulo{ height: 220px;width:100%}
 
 	</style>
-	<script> 
+	<script>
 
 	$(document).ready(function(){
-		
+
 	   		$('#medico').change(function(){
 
 	 			var valorSeleccionado = $(this).val();
 	 			if(valorSeleccionado == "Otro"){
-	 				$('#test').fadeIn();  
+	 				$('#test').fadeIn();
 	 			}
 	 			else{
-	 				$('#test').fadeOut(); 
-	 				return false;		
+	 				$('#test').fadeOut();
+	 				return false;
 	 			}
 			});
-			
-		
+
+
 			$("#contact_form").submit(function () {
-				  
+
 	    		var tel1 = $("#tel1_1").val();
 				var tel2 = $("#tel1_2").val();
-				
+
 				tel = tel1.length + tel2.length;
-				
+
 				var tel11 = $("#tel2_1").val();
 				var tel21 = $("#tel2_2").val();
-				
+
 				tel3 = tel11.length + tel21.length;
-				
+
 				var medico = $("#medico").val();
 				var otro = $("#otro").val();
-				
+
 	    		var check = $("input[type='checkbox']:checked").length;
-	
+
 				if (check == 0) {
 					mensaje_casillas();
-					return false;  
+					return false;
 				}
 
 				if (!( (tel == 11) || (tel == 13) )) {
 					mensaje_tel();
 					return false;
 				}
-				
+
 				if (tel3 != 0)
 				{
 					if (!( (tel3 == 11) || (tel3 == 13) )) {
@@ -96,18 +96,18 @@
 					  	return false;
 					}
 				}
-				
+
 				if (medico == "Otro" && otro == "")
 				{
-					mensaje_medico();	
+					mensaje_medico();
 				  	return false;
 				}
-									
-			});			
-			
-			  
+
+			});
+
+
 	});
-	
+
 	function mensaje_casillas() {
         $( "#mensaje_casillas" ).dialog({
 			autoOpen: true,
@@ -122,7 +122,7 @@
             }
         });
 	};
-	
+
 	function mensaje_tel() {
         $( "#mensaje_tel" ).dialog({
 			autoOpen: true,
@@ -137,7 +137,7 @@
           	}
 	     });
 	};
-		
+
 	function mensaje_medico() {
 	    $( "#mensaje_medico" ).dialog({
 			autoOpen: true,
@@ -213,21 +213,21 @@
     });
 */
 /*	$(function() {
-       
+
         $( "#obra" ).autocomplete({
             source: "/clinica/scripts/search.php",
             minLength: 1,
         });
     });
-*/		  
-	</script>	
+*/
+	</script>
 </head>
 <body>
-	
+
 <div id="mensaje_casillas" style="display:none"> Se debe marcar al menos una casilla </div>
 <div id="mensaje_tel" style="display:none"> El nro de teléfono no es correcto </div>
 <div id="mensaje_medico" style="display:none"> Se debe ingresar médico</div>
-	
+
 	<div class = "titulo">
 		<div style="float:left">
 			<?php
@@ -235,12 +235,12 @@
 				echo '<img src = "'.base_url('css/images/volver.png').'"/>';
 			echo '</a>';
 			?>
-		</div>		
+		</div>
 		<div style="text-align:right; font-size: 60px; margin-bottom: 30px; width: 95%">
 			Nuevo Turno
-		</div>	
+		</div>
 		<div id= "fecha1">
-			<?php 
+			<?php
 				echo $day." ".$daynum.",";
 				$var = explode(':', $horario);
 				$hora = $var[0];
@@ -250,13 +250,13 @@
 		<div id = "fecha2">
 			<?php
 				echo $month." ".$year;
-			?>	
-		</div>	
+			?>
+		</div>
      <!-- <span class="required_notification">* Campos obligatorios</span> -->
-	</div>	
+	</div>
 	<span class="required_notification">* Campos obligatorios</span>
 	<form class="contact_form" action="<?php echo base_url('index.php/main/pro_nuevo_turno')?>" method="post" name="contact_form" id="contact_form">
-		
+
     	<div style = "float:left; width:100%; height: 200px; border-bottom: 1px solid #eee; margin-top: 30px";>
 			<div style="float:left; margin-left: 12px; margin-bottom: 20px">
 				<label for="minutos" style = "width: 150px"><font color = "red">* </font> Hora: </label>
@@ -272,9 +272,9 @@
 				?>
 			</div>
 		</div>
-		<div id = "ul1">		
+		<div id = "ul1">
 	        <ul>
-				
+
 	        	<li>
 	            	<label for="apellido"><font color = "red">* </font> Apellido:</label>
 	            	<input type="text" size = "14" name="apellido" autocomplete="off" style="text-transform:capitalize" required/>
@@ -289,25 +289,25 @@
 		<div id = "tabla">
 			<div class = "fila">
 				<div class = "celda">
-					<input type="checkbox" name="tipo[]" value = "CVC" id = "CVC"/><label for="CVC"> CVC </label> 		
+					<input type="checkbox" name="tipo[]" value = "CVC" id = "CVC"/><label for="CVC"> CVC </label>
 				</div>
-				<div class = "celda_2">	
-					<input type="checkbox" name="tipo[]" value = "TOPO" id = "TOPO"/><label for="TOPO"> TOPO </label>	
+				<div class = "celda_2">
+					<input type="checkbox" name="tipo[]" value = "TOPO" id = "TOPO"/><label for="TOPO"> TOPO </label>
 				</div>
 				<div class = "celda">
 					<input type="checkbox" name="tipo[]" value = "IOL"id = "IOL"/><label for="IOL"> IOL </label>
 				</div>
 				<div class = "celda">
 					<input type="checkbox" name="tipo[]" value = "ME" id = "ME"/><label for="ME"> ME </label>
-				</div>	
+				</div>
 			</div>
 			<div class = "fila">
 				<div class = "celda">
 					<input type="checkbox" name="tipo[]" value = "RFG"id = "RFG"/><label for="RFG"> RFG </label>
 				</div>
 				<div class = "celda_2">
-					<input type="checkbox" name="tipo[]" value = "RFG-Color" id = "RFG-Color"/><label for="RFG-Color"> RFG-Color </label> 
-				</div>			
+					<input type="checkbox" name="tipo[]" value = "RFG-Color" id = "RFG-Color"/><label for="RFG-Color"> RFG-Color </label>
+				</div>
 				<div class = "celda">
 					<input type="checkbox" name="tipo[]" value = "OCT" id = "OCT"/><label for="OCT"> OCT </label>
 				</div>
@@ -317,31 +317,42 @@
 			</div>
 			<div class = "fila">
 				<div class = "celda">
-					<input type="checkbox" name="tipo[]" value = "OBI" id = "OBI"/><label for="OBI"> OBI </label> 
-				</div>			
-				<div class = "celda_2">	
-					<input type="checkbox" name="tipo[]" value = "YAG" id = "YAG"/><label for="YAG"> YAG </label> 
+					<input type="checkbox" name="tipo[]" value = "OBI" id = "OBI"/><label for="OBI"> OBI </label>
+				</div>
+				<div class = "celda_2">
+					<input type="checkbox" name="tipo[]" value = "YAG" id = "YAG"/><label for="YAG"> YAG </label>
 				</div>
 				<div class = "celda">
 					<input type="checkbox" name="tipo[]" value = "Laser" id = "Laser"/><label for="LASER"> Laser </label>
 				</div>
 				<div class = "celda">
-					<input type="checkbox" name="tipo[]" value = "HRT" id = "HRT"/><label for="HRT"> HRT </label>	
-				</div>			
+					<input type="checkbox" name="tipo[]" value = "HRT" id = "HRT"/><label for="HRT"> HRT </label>
+				</div>
 			</div>
 			<div class = "fila">
 				<div class = "celda">
-					<input type="checkbox" name="tipo[]" value = "Consulta" id = "Consulta"/><label for="Consulta"> Consulta </label> 				
+					<input type="checkbox" name="tipo[]" value = "Consulta" id = "Consulta"/><label for="Consulta"> Consulta </label>
 				</div>
-				<div class = "celda_2" style = "margin-left:70px">
-					<input type="checkbox" name="tipo[]" value = "S/Cargo" id = "S/Cargo"/><label for="S/Cargo"> Sin Cargo </label> 				
-				</div>				
+				<div class = "celda_2">
+					<input type="checkbox" name="tipo[]" value = "ARM" id = "ARM"/><label for="ARM"> ARM </label>
+				</div>
+				<div class = "celda">
+					<input type="checkbox" name="tipo[]" value = "Tonom" id = "Tonom"/><label for="Tonom"> Tonom </label>
+				</div>
+				<div class = "celda">
+					<input type="checkbox" name="tipo[]" value = "EXO" id = "EXO"/><label for="EXO"> EXO </label>
+				</div>
 			</div>
-		</div>	
-		<div id = "ul2">	
+			<div class = "fila">
+				<div class = "celda">
+					<input type="checkbox" name="tipo[]" value = "S/Cargo" id = "S/Cargo"/><label for="S/Cargo"> Sin Cargo </label>
+				</div>
+			</div>
+		</div>
+		<div id = "ul2">
 			<ul>
 				<li>
-				</li>						
+				</li>
 				<li>
 					<label for="medico"><font color = "red">* </font> Médico:</label>
 						<select id = "medico" name = "medico">
@@ -362,7 +373,7 @@
 						</select>
 						<div id = "test" style = "display: none">
 							<input type="text" size = "14" name="otro" id = "otro" style="text-transform:capitalize" autocomplete="off"/>
-						</div>		
+						</div>
 				</li>
 				<li>
 					<label for="obra"><font color = "red">* </font> Obra social:</label>
@@ -376,9 +387,9 @@
 										echo '<option value ="'.$value->obra.'">'.$value->obra.'</option>';
 								}
 							?>
-						</select>	
-				</li>	
-				<li>	
+						</select>
+				</li>
+				<li>
 	            	<label for="tel1_1"><font color = "red">* </font> Teléfono 1:</label>
 	            	<input type="tel" size="3" maxlength = "5" name="tel1_1" id="tel1_1" value="0341" autocomplete="off" onFocus="if (this.value=='0341') this.value='';" required pattern="[0-9].{2,}"/>
 			    	<input type="tel" size = "8" maxlength = "10" name="tel1_2" id="tel1_2" autocomplete="off" required pattern="[0-9].{5,}"/>

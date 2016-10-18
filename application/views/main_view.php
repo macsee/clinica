@@ -42,15 +42,15 @@
 	<script>
 
 	$(document).ready(function()
-	{	
+	{
 		$("#cita_hora").keyup(function() {
-			
+
    			if($(this).val().length == $(this).attr('maxlength')) {
         		$("#cita_minutos").focus();
     		}
-			
+
 		});
-		
+
 		$( "#medico" ).change(function () {
 				var base_url = '<?php echo base_url(); ?>';
 	    		var str = "";
@@ -65,10 +65,10 @@
 	  	$(".check").click(function(event)
 		{
 			var base_url = '<?php echo base_url(); ?>';
-		
+
 			var img1 = '<?php echo base_url("css/images/check_32x26.png"); ?>'; //unchecked
 			var img2 = '<?php echo base_url("css/images/check_alt_32x32.png"); ?>'; //checked
-			
+
 			//event.preventDefault();
 			var value = $(this).attr('id');
 			var status = "";
@@ -80,11 +80,11 @@
              	status = "ok";
 
              	//var datastring = "posteo="+value+","+"1";
-            }	
+            }
          	else {
           		$(this).attr('src', img1);
           		status = "medico";
-          		
+
           		//var datastring = "posteo="+value+","+"0";
           	}
 
@@ -92,7 +92,7 @@
             		'id'		: value,
             		'estado'	: status,
     		};
-                  
+
           	$.ajax({
 					type: 'POST',
  					url: base_url+"cambiar_estado.php",
@@ -100,7 +100,7 @@
 			});
 
         });
-	}); 
+	});
 
 
     function chequear(fecha,hora,minutos) {
@@ -145,7 +145,7 @@
             buttons: {
                 "Si": function() {
                 	if ($("#motivo").val() == "")
-                		$("#error_motivo").html("Debe escribir un motivo.");	
+                		$("#error_motivo").html("Debe escribir un motivo.");
                 	else
 						$("#form_bloquear").submit();
                 },
@@ -173,19 +173,19 @@
             }
         });
    	};
-		
-	</script>	
+
+	</script>
 </head>
 <body>
 <div id = "busqueda" style = "margin-right:8px">
 	<form class="form-wrapper cf" action="<?php echo base_url('index.php/main/busqueda')?>" method="post" name="search_form" id="search_form">
 		<input type="text" name="busqueda_texto" id = "busqueda_texto" autocomplete="off" placeholder="Busqueda de turnos..." required/>
 		<button type="submit"> Buscar </button>
-	</form>	
-</div>	
+	</form>
+</div>
 <div id = "menu">
 	<div id = "dia_anterior">
-		<?php 
+		<?php
 			$dia_anterior = strtotime("-1 day", strtotime($fecha));
 echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anterior)).'">';
 				echo '<img src = "'.base_url('css/images/atras.png').'"/>';
@@ -193,14 +193,14 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 		?>
 	</div>
 	<div id = "hoy">
-		<?php 
+		<?php
 			echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d')).'">';
 				echo '<img src = "'.base_url('css/images/hoy.png').'"/>';
 			echo '</a>';
-		?>	
+		?>
 	</div>
 	<div id = "dia_siguiente">
-		<?php 
+		<?php
 			$dia_siguiente = strtotime("+1 day", strtotime($fecha));
 			echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_siguiente)).'">';
 				echo '<img src = "'.base_url('css/images/adelante.png').'"/>';
@@ -208,7 +208,7 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 		?>
 	</div>
 	<div class="count">
-		<?php 	
+		<?php
 			if ($filas == 0) {
 					echo "0";
 			}
@@ -216,7 +216,7 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 				$cantidad = 0;
 				foreach ($filas as $fila) {
 					//if ($fila->medico == "Dr. Jelusich") {
-						$cantidad++; 
+						$cantidad++;
 					//}
 				}
 				echo $cantidad;
@@ -225,15 +225,15 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 	</div>
 	<div id = "agregar_notas">
 		<?php
-		echo '<a href="'.base_url('index.php/main/add_notas/'.$fecha).'">'; 
-			echo '<img src = "'.base_url('css/images/notas.png').'"/>';  
+		echo '<a href="'.base_url('index.php/main/add_notas/'.$fecha).'">';
+			echo '<img src = "'.base_url('css/images/notas.png').'"/>';
 		echo '</a>';
 		?>
 	</div>
 	<div id = "calendario">
 		<?php
 		echo '<a href="'.base_url('index.php/main/show_calendar').'">';
-			echo '<img src = "'.base_url('css/images/calendar.png').'"/>'; 
+			echo '<img src = "'.base_url('css/images/calendar.png').'"/>';
 		echo '</a>';
 		?>
 	</div>
@@ -241,17 +241,17 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 		<?php
 			if ($bloqueado != null) {
 				echo '<a href="#" onclick = "return desbloquear()">';
-					echo '<img src = "'.base_url('css/images/lock.png').'"/>'; 
-				echo '</a>';	
+					echo '<img src = "'.base_url('css/images/lock.png').'"/>';
+				echo '</a>';
 			}
 			else {
 				echo '<a href="#" onclick = "return bloquear()">';
-					echo '<img src = "'.base_url('css/images/lock.png').'"/>'; 
-				echo '</a>';	
+					echo '<img src = "'.base_url('css/images/lock.png').'"/>';
+				echo '</a>';
 			}
 		/*
-		echo '<a href="'.base_url('index.php').'">'; 
-			echo '<img src = "'.base_url('css/images/home.png').'"/>'; 
+		echo '<a href="'.base_url('index.php').'">';
+			echo '<img src = "'.base_url('css/images/home.png').'"/>';
 		echo '</a>';
 		*/
 		?>
@@ -269,7 +269,7 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 		<select id = "medico" name = "medico">
 			<?php
 				echo '<option value = "todos" selected>TODOS</option>';
-				foreach ($medicos as $med) {	
+				foreach ($medicos as $med) {
 					if ($medico_selected == $med->id_medico)
 						if ($med->nombre == "Otro")
 							echo '<option value ='.$med->id_medico.' selected>'.$med->nombre.'</option>';
@@ -283,7 +283,7 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 				}
 			?>
 		</select>
-	</div>	
+	</div>
 </div>
 <div id = "notas_dia">
 	<ul>
@@ -293,12 +293,12 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 				echo '<li>';
 					echo anchor('main/edit_notas/'.$nota->id, $nota->nota);
 					echo '<p style = "font-style:italic;font-size:15px">'.date('d-m-Y@H:i', strtotime($nota->last_update)).' - '.$nota->usuario.'</p>';
-				echo '</li>';		
+				echo '</li>';
 			}
-		}	
+		}
 	?>
 	</ul>
-</div>	
+</div>
 
 <div id="dialog-confirm" title="¿Cambiar turno?" style = "display:none">
 	<form action="<?php echo base_url('index.php/main/cambiar_turno')?>" method="post" name="form_cambiar" id="form_cambiar">
@@ -329,7 +329,7 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 		<input name = "fecha" type = "hidden" value = "<?php echo $fecha?>"/>
 		<input name = "medico" type = "hidden" value = "<?php echo $medico_selected?>"/>
 	</form>
-</div>	
+</div>
 <div id="bloquear_dia" title="¿Bloquear agenda?" style = "display:none">
 	<form id = "form_bloquear" action="<?php echo base_url('index.php/main/bloquear_dia/')?>" method="post">
 		<input name = "fecha" type = "hidden" value = "<?php echo $fecha?>"/>
@@ -339,7 +339,7 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 		<?php }
 			else {?>
 			<div style = "margin-bottom:15px;margin-top:5px">Bloquear agenda para <b>Dr. <?php echo $medico_selected_name?></b>?</div>
-		<?php }?>	
+		<?php }?>
 		Motivo: <textarea id = "motivo" name = "motivo" style = "margin-top:20px;width:440px;height:240px;float:right" required/></textarea>
 		<div id = "error_motivo" style ="color:red;float:left;width:100%"></div>
 	</form>
@@ -349,28 +349,28 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 <?php
 /* VIEJO
  	foreach ($horario as $esta) {
-	
+
 		$hora_completa = date('H:i', strtotime($esta->hora));
 		$array[$hora_completa] = $hora_completa;
-		
+
 	}
-	
+
 	if ($filas <> 0) {
 
 		foreach ($filas as $fila) {
 			$hora_completa = date('H:i', strtotime($fila->hora));
 			$array[$hora_completa] = $fila;
 		}
-		
+
 	}
-	
+
 	ksort($array);
-*/	
+*/
 	if ($bloqueado == null) {
 
 		if ($filas <> 0) {
 
-				$i = 0;	
+				$i = 0;
 				foreach ($filas as $fila) {
 
 					$hora_comp_turno = date('H:i', strtotime($fila->hora));
@@ -384,8 +384,8 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 					$hora_comp = date('H:i', strtotime($esta->hora));
 					if (!in_array($hora_comp, $array)) {
 						$array[$i] = $hora_comp;
-						$i++;	
-					}			
+						$i++;
+					}
 				}
 
 				asort($array);
@@ -405,8 +405,8 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 
 					}
 
-				}		
-				
+				}
+
 			}
 
 			else {
@@ -416,15 +416,15 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 
 					$hora_comp = date('H:i', strtotime($esta->hora));
 						$array[$i] = $hora_comp;
-						$i++;				
+						$i++;
 				}
 			}
 
 
 		foreach ($array as $fila) {
-			
+
 			if (is_object($fila)) {
-				
+
 				$hora_completa = date('H:i', strtotime($fila->hora));
 				$cita = date('H:i', strtotime($fila->citado));
 
@@ -434,25 +434,25 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 				else
 					$color = $config->config;
 
-				echo '<div class = "fila_ocupada" style = "background-color:'.$color.'">'; 
+				echo '<div class = "fila_ocupada" style = "background-color:'.$color.'">';
 					echo '<div class = "fila_superior" onclick = "location.href=\''.base_url("/index.php/main/vista_turno/".$fila->id).'\';" style="cursor: pointer;"">';
-						echo '<div class = "nombre_apellido">'; 	
+						echo '<div class = "nombre_apellido">';
 							echo $fila->apellido.', '.$fila->nombre;
 						echo '</div>';
-						
+
 						echo '<div class = "hora_ocupada">';
 							echo '<a name="'.$hora_completa.'">'.$hora_completa.'</a>';
 						echo '</div>';
 					echo '</div>';
-						
+
 						if (($cita <> '00:00') && ($cita <> $hora_completa)){
 							echo '<div class = "hora_citado">';
 								echo '<a>cita: '.$cita.'</a>';
-							echo '</div>';	
+							echo '</div>';
 						}
-							
+
 					echo '<div class = "datos" onclick = "location.href=\''.base_url("/index.php/main/vista_turno/".$fila->id).'\';" style="cursor: pointer;">';
-						
+
 						echo '<div class = "campos">';
 							echo "Médico: ";
 						echo '</div>';
@@ -463,13 +463,13 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 								echo $auxi[1];
 							}
 							else {
-								echo $fila->medico;	
+								echo $fila->medico;
 							}
 						echo '</div>';
 						echo '<div class = "campos">';
 							echo "Obra Social: ";
 						echo '</div>';
-						echo '<div class = "valores">';
+						echo '<div class = "valores" style ="overflow:hidden">';
 							echo $fila->obra_social;
 						echo '</div>';
 						echo '<div class = "campos">';
@@ -479,9 +479,9 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 							echo $fila->tipo;
 						echo '</div>';
 					echo '</div>';
-					
+
 					echo '<div class = "fila_inferior">';
-						
+
 						echo '<div class = "campo_ficha">';
 							echo "Nro de ficha: ";
 						echo '</div>';
@@ -490,7 +490,7 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 							if ($fila->ficha == -1) {
 								//echo anchor('main/nuevo_paciente', 'Nuevo Paciente');
 								echo '<a href = "#">Nuevo Paciente</a>';
-							}	
+							}
 							else if ($fila->ficha == -2) {
 								//echo anchor('main/buscar_paciente', 'Buscar..');
 								echo '<a href = "#">Buscar..</a>';
@@ -498,41 +498,41 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 							else {
 								//echo anchor('main/buscar_ficha/'.$fila->ficha, $fila->ficha);
 								echo '<a href = "#">'.$fila->ficha.'</a>';
-							}		
+							}
 						echo '</div>';
-						
+
 						echo '<div class = "estado" id = "'.$fila->id.'" style="cursor: pointer;margin-left:50px;float:left;">';
-						
+
 						$hora = date('H', strtotime($fila->hora));
 						$minutos = date('i', strtotime($fila->hora));
 						$data = $fecha.'/'.$hora.'/'.$minutos;
 
 						if ($fila->estado != "ok")
-							echo '<img class = "check" id = "'.$fila->id.'" src = "'.base_url('css/images/check_32x26.png').'"/>'; 
+							echo '<img class = "check" id = "'.$fila->id.'" src = "'.base_url('css/images/check_32x26.png').'"/>';
 						else
-							echo '<img class = "check" id = "'.$fila->id.'" src = "'.base_url('css/images/check_alt_32x32.png').'"/>';	
+							echo '<img class = "check" id = "'.$fila->id.'" src = "'.base_url('css/images/check_alt_32x32.png').'"/>';
 
 						echo '</div>';
-					echo '</div>';	
-					
+					echo '</div>';
+
 				echo '</div>';
 			}
 			else {
 				$hora = date('H', strtotime($fila));
 				$minutos = date('i', strtotime($fila));
 				$data = $fecha.'/'.$hora.'/'.$minutos;
-				
+
 					if ($id_turno <> NULL)
-					{				
+					{
 						echo '<div class = "fila_vacia" style="cursor: pointer" onclick = "return chequear(\''.$fecha.'\', \''.$hora.'\', \''.$minutos.'\');">';
-					}	
+					}
 					else
 					{
-						echo '<div class = "fila_vacia" onclick = "location.href=\''.base_url("/index.php/main/nuevo_turno/".$fecha.'/'.$hora.'/'.$minutos).'\';" style="cursor: pointer;">';	
-					}	
-					echo '<div class = "hora">'; 
+						echo '<div class = "fila_vacia" onclick = "location.href=\''.base_url("/index.php/main/nuevo_turno/".$fecha.'/'.$hora.'/'.$minutos).'\';" style="cursor: pointer;">';
+					}
+					echo '<div class = "hora">';
 						echo '<a name="'.$fila.'">'.$fila.'</a>';
-					echo '</div>';	 
+					echo '</div>';
 				echo '</div>';
 			}
 		}
@@ -551,7 +551,7 @@ echo '<a href="'.base_url('index.php/main/cambiar_dia/'.date('Y-m-d',$dia_anteri
 			echo "<p style = 'text-align:center;font-size:25px;>Motivo: <i>".$motivo."</i></p>";
 			echo "<p style = 'text-align:center;font-size:15px;>Última edición: <i>".date('d-m-Y',strtotime($bloqueado->last_update))." - ".$bloqueado->usuario."</i></p>";
 		echo '</div>';
-	}	
+	}
 
 ?>
 </div>

@@ -20,9 +20,9 @@
 		margin: auto;
 	}
 	</style>
-	
+
 	<script>
-	
+
     function chequear(url,data) {
         $( "#dialog-confirm" ).dialog({
 			autoOpen: true,
@@ -41,33 +41,33 @@
             }
         });
    };
-		
+
 	</script>
 	<script>
 
 			$(document).ready(function() {
-				
-				
+
+
 				$('.ask-plain').click(function(e) {
-					
+
 					e.preventDefault();
 					thisHref	= $(this).attr('href');
-					
+
 					if(confirm('¿Borrar turno?')) {
 						window.location = thisHref;
 					}
-					
+
 				});
-		
+
 			});
-			
+
 	</script>
-	
+
 </head>
 <body>
-	
+
 	<div id="dialog-confirm" title="¿Borrar turno?"></div>
-	
+
 	<?php
 	 	$data = $result[0];
 		$fecha = $data->fecha;
@@ -80,7 +80,7 @@
 		$day = date('d', strtotime($fecha));
 		$daynum    = date("l", strtotime($fecha));
 		$month  = date("F", strtotime($fecha));
-		
+
 		switch($daynum)
 		{
 		        case "Monday":  $daynum = "Lunes";  break;
@@ -109,24 +109,24 @@
 		        case "December":  $month = "Diciembre";  break;
 		        default:                  $month = "Unknown";   break;
 		}
-		
+
 		echo '<div class = "titulo_turno">';
 
 			echo '<div class = "dia_turno">';
 				echo $daynum.' '.$day;
 			echo '</div>';
 
-			echo '<div class = "mes_ano_turno">';	
+			echo '<div class = "mes_ano_turno">';
 				echo $month.' '.$year;
 			echo '</div>';
 
-			echo '<div class = "hora_turno">';	
+			echo '<div class = "hora_turno">';
 				echo $hora_completa.' hs';
-			echo '</div>';			
-				
+			echo '</div>';
+
 		echo '</div>';
-		
-	echo '<div class = "nombre_apellido_vista">'; 	
+
+	echo '<div class = "nombre_apellido_vista">';
 		echo $data->nombre.' '.' '.$data->apellido;
 	echo '</div>';
 
@@ -137,10 +137,10 @@
 		echo '<div class = "valores_vista">';
 			echo $data->tel1;
 		echo '</div>';
-		echo '<div class = "campos_vista">';		
+		echo '<div class = "campos_vista">';
 			echo "Obra Social: ";
 		echo '</div>';
-		echo '<div class = "valores_vista">';
+		echo '<div class = "valores_vista" style ="overflow:hidden;white-space:nowrap">';
 			echo $data->obra_social;
 		echo '</div>';
 		echo '<div class = "campos_vista">';
@@ -153,7 +153,7 @@
 				echo $auxi[1];
 			}
 			else {
-				echo $data->medico;	
+				echo $data->medico;
 			}
 		echo '</div>';
 		echo '<div class = "campos_vista">';
@@ -168,13 +168,13 @@
 		echo '<div class = "valores_vista">';
 			if ($data->ficha == -1) {
 				echo anchor('main/nuevo_paciente', 'Nuevo Paciente');
-			}	
-			else if ($data->ficha == -2) {	
+			}
+			else if ($data->ficha == -2) {
 				echo anchor('main/buscar_paciente', 'Buscar..');
 			}
 			else {
 				echo anchor('main/buscar_ficha/'.$data->ficha, $data->ficha);
-			}		
+			}
 		echo '</div>';
 		echo '<div class = "campos_vista">';
 			echo "Notas: ";
@@ -182,13 +182,13 @@
 		echo '<div class = "valores_vista">';
 			if ($data->notas == "") {
 				echo '<i> No hay notas </i>';
-			}	
+			}
 			else {
 				echo $data->notas;
 			}
 		echo '</div>';
 	echo '</div>';
-	
+
 	echo '<div class = "botones">';
 		echo '<div class = "icono">';
 			echo '<a href="'.base_url('index.php/main/editar_turno/'.$data->id).'">';
@@ -221,8 +221,8 @@
 			echo '<a href="'.base_url('index.php/main/cambiar_dia/'.$fecha).'">';
 				echo '<img src = "'.base_url('css/images/volver.png').'"/>';
 			echo '</a>';
-		echo '</div>';	
-	echo '</div>';	
+		echo '</div>';
+	echo '</div>';
 	?>
 </body>
 </html>

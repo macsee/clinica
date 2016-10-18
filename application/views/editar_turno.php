@@ -22,71 +22,71 @@
 	    * html .ui-autocomplete {
 	        height: 100px;
 	    }
-		
+
 		.ui-widget {
 			font-size: 30pt;
 		}
-		
+
 		.ui-dialog {
 			//position: relative;
 			margin: auto;
 			font-size: 25pt;
 			text-align: center;
 		}
-		
-		.ui-dialog .ui-dialog-buttonpane { 
+
+		.ui-dialog .ui-dialog-buttonpane {
 		    text-align: center;
 		}
-		.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset { 
+		.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
 		    float: none;
 		}
-		
+
 
 	</style>
-	<script> 
+	<script>
 
 	$(document).ready(function(){
-		
+
 	   		$('#medico').change(function(){
 
 	 			var valorSeleccionado = $(this).val();
 	 			if(valorSeleccionado == "Otro"){
-	 				$('#test').fadeIn();  
+	 				$('#test').fadeIn();
 	 			}
 	 			else{
-	 				$('#test').fadeOut(); 
-	 				return false;		
+	 				$('#test').fadeOut();
+	 				return false;
 	 			}
 			});
-			
-		
+
+
 			$("#contact_form").submit(function () {
-				  
+
 	    		var tel1 = $("#tel1_1").val();
 				var tel2 = $("#tel1_2").val();
-				
+
 				tel = tel1.length + tel2.length;
-				
+
 				var tel11 = $("#tel2_1").val();
 				var tel21 = $("#tel2_2").val();
-				
+
 				tel3 = tel11.length + tel21.length;
-				
+
 				var medico = $("#medico").val();
 				var otro = $("#otro").val();
-				
+
 	    		var check = $("input[type='checkbox']:checked").length;
-	
+
 				if (check == 0) {
 					mensaje_casillas();
-					return false;  
+					return false;
 				}
 
 				if (!( (tel == 11) || (tel == 13) )) {
 					mensaje_tel();
 					return false;
 				}
-				
+
 				if (tel3 != 0)
 				{
 					if (!( (tel3 == 11) || (tel3 == 13) )) {
@@ -94,18 +94,18 @@
 					  	return false;
 					}
 				}
-				
+
 				if (medico == "Otro" && otro == "")
 				{
-					mensaje_medico();	
+					mensaje_medico();
 				  	return false;
 				}
-									
-			});			
-			
-			  
+
+			});
+
+
 	});
-	
+
 	function mensaje_casillas() {
         $( "#mensaje_casillas" ).dialog({
 			autoOpen: true,
@@ -120,7 +120,7 @@
             }
         });
 	};
-	
+
 	function mensaje_tel() {
         $( "#mensaje_tel" ).dialog({
 			autoOpen: true,
@@ -135,7 +135,7 @@
           	}
 	     });
 	};
-		
+
 	function mensaje_medico() {
 	    $( "#mensaje_medico" ).dialog({
 			autoOpen: true,
@@ -211,21 +211,21 @@
     });
 
 /*	$(function() {
-       
+
         $( "#obra" ).autocomplete({
             source: "/clinica/scripts/search.php",
             minLength: 1,
         });
     });
-*/		  
+*/
 	</script>
 </head>
 <body>
-	
+
 	<div id="mensaje_casillas" style="display:none"> Se debe marcar al menos una casilla </div>
 	<div id="mensaje_tel" style="display:none"> El nro de teléfono no es correcto </div>
 	<div id="mensaje_medico" style="display:none"> Se debe ingresar médico</div>
-		
+
 	<div class = "titulo">
 		<div style="float:left">
 			<?php
@@ -233,22 +233,22 @@
 				echo '<img src = "'.base_url('css/images/volver.png').'"/>';
 			echo '</a>';
 			?>
-		</div>		
+		</div>
 		<div style="float:right; font-size: 60px; margin-bottom: 30px">
 			Editar Turno
-		</div>	
+		</div>
 		<div id= "fecha1">
-			<?php 
+			<?php
 				echo $day." ".$daynum." - ".$hora."hs";
 			?>
 		</div>
 		<div id = "fecha2">
 			<?php
 				echo $month." ".$year;
-			?>	
-		</div>	
+			?>
+		</div>
      <!-- <span class="required_notification">* Campos obligatorios</span> -->
-	</div>	
+	</div>
 	<span class="required_notification">* Campos obligatorios</span>
 	<form class="contact_form" action="<?php echo base_url('index.php/main/pro_edit_turno#'.$hora)?>" method="post" name="contact_form" id= "contact_form">
 		<div id = "ul1">
@@ -260,15 +260,15 @@
 					$cita = $hora_cita.':'.$minuto;
 
 		    		if ($cita <> '00:00') {
-		    	?>	
+		    	?>
 							<li>
 	            				<label for="citado" style = "width: 150px"> Cita: </label>
 	            				<input type="time" size = "4" name="hora_citado" autocomplete="off" value = "<?php echo $cita ?>"/>
 	        				</li>
 				<?php
 						}
-				?>		
-	    		
+				?>
+
 	        	<li>
 	            	<label for="apellido"><font color = "red">* </font> Apellido: </label>
 	            	<input type="text" size = "14" name="apellido" autocomplete="off" value = "<?php echo $filas[0]->apellido ?>" style="text-transform:capitalize"required/>
@@ -281,17 +281,17 @@
 		</div>
 	    <div id="tipo_turno"><font color = "red">* </font> Tipo de turno:</div>
 		<div id = "tabla">
-			<?php 
+			<?php
 				$cadena = $filas[0]->tipo;
 			?>
 			<div class = "fila">
 				<div class = "celda">
 					<?php if ( strstr($cadena, "CVC") <> "") {?>
-						<input type="checkbox" name="tipo[]" value = "CVC" id = "CVC" checked/><label for="CVC"> CVC </label> 		
+						<input type="checkbox" name="tipo[]" value = "CVC" id = "CVC" checked/><label for="CVC"> CVC </label>
 					<?php }
 					else { ?>
 						<input type="checkbox" name="tipo[]" value = "CVC" id = "CVC"/><label for="CVC"> CVC </label>
-					<?php }?> 		
+					<?php }?>
 				</div>
 				<div class = "celda_2">
 					<?php if ( strstr($cadena, "TOPO") <> "") {?>
@@ -299,7 +299,7 @@
 					<?php }
 					else { ?>
 						<input type="checkbox" name="tipo[]" value = "TOPO" id = "TOPO"/><label for="TOPO"> TOPO </label>
-					<?php }?>	
+					<?php }?>
 				</div>
 				<div class = "celda">
 					<?php if ( strstr($cadena, "IOL") <> "") {?>
@@ -307,7 +307,7 @@
 					<?php }
 					else { ?>
 						<input type="checkbox" name="tipo[]" value = "IOL"id = "IOL"/><label for="IOL"> IOL </label>
-					<?php }?>	
+					<?php }?>
 				</div>
 				<div class = "celda">
 					<?php if ( strstr($cadena, "ME") <> "") {?>
@@ -316,7 +316,7 @@
 					else { ?>
 						<input type="checkbox" name="tipo[]" value = "ME" id = "ME"/><label for="ME"> ME </label>
 					<?php }?>
-				</div>	
+				</div>
 			</div>
 			<div class = "fila">
 				<div class = "celda">
@@ -325,7 +325,7 @@
 					<?php }
 					else { ?>
 						<input type="checkbox" name="tipo[]" value = "RFG"id = "RFG"/><label for="RFG"> RFG </label>
-					<?php }?>	
+					<?php }?>
 				</div>
 				<div class = "celda_2">
 					<?php if ( strstr($cadena, "RFG-Color") <> "") {?>
@@ -333,15 +333,15 @@
 					<?php }
 					else { ?>
 						<input type="checkbox" name="tipo[]" value = "RFG-Color"id = "RFG-Color"/><label for="RFG-Color"> RFG-Color </label>
-					<?php }?>	
+					<?php }?>
 				</div>
 				<div class = "celda">
 					<?php if ( strstr($cadena, "OCT") <> "") {?>
 						<input type="checkbox" name="tipo[]" value = "OCT" id = "OCT" checked/><label for="OCT"> OCT </label>
 					<?php }
 					else { ?>
-						<input type="checkbox" name="tipo[]" value = "OCT" id = "OCT"/><label for="OCT"> OCT </label>	
-					<?php }?>	
+						<input type="checkbox" name="tipo[]" value = "OCT" id = "OCT"/><label for="OCT"> OCT </label>
+					<?php }?>
 				</div>
 				<div class = "celda">
 					<?php if ( strstr($cadena, "PAQUI") <> "") {?>
@@ -349,7 +349,7 @@
 					<?php }
 					else { ?>
 						<input type="checkbox" name="tipo[]" value = "PAQUI"id = "PAQUI"/><label for="PAQUI"> PAQUI </label>
-					<?php }?>	
+					<?php }?>
 				</div>
 			</div>
 			<div class = "fila">
@@ -359,58 +359,84 @@
 					<?php }
 					else { ?>
 						<input type="checkbox" name="tipo[]" value = "OBI" id = "OBI"/><label for="OBI"> OBI </label>
-					<?php }?>		 
-				</div>			
+					<?php }?>
+				</div>
 				<div class = "celda_2">
-				<?php if ( strstr($cadena, "YAG") <> "") {?>	
+				<?php if ( strstr($cadena, "YAG") <> "") {?>
 					<input type="checkbox" name="tipo[]" value = "YAG" id = "YAG" checked/><label for="YAG"> YAG </label>
 				<?php }
 					else { ?>
 					<input type="checkbox" name="tipo[]" value = "YAG" id = "YAG"/><label for="YAG"> YAG </label>
-				<?php }?>		 
+				<?php }?>
 				</div>
 				<div class = "celda">
-				<?php if ( strstr($cadena, "Laser") <> "") {?>	
+				<?php if ( strstr($cadena, "Laser") <> "") {?>
 					<input type="checkbox" name="tipo[]" value = "Laser" id = "Laser" checked/><label for="Laser"> Laser </label>
 				<?php }
 					else { ?>
 					<input type="checkbox" name="tipo[]" value = "Laser" id = "Laser"/><label for="Laser"> Laser </label>
-				<?php }?>		
+				<?php }?>
 				</div>
 				<div class = "celda">
 				<?php if ( strstr($cadena, "HRT") <> "") {?>
-					<input type="checkbox" name="tipo[]" value = "HRT" id = "HRT" checked/><label for="HRT"> HRT </label> 
+					<input type="checkbox" name="tipo[]" value = "HRT" id = "HRT" checked/><label for="HRT"> HRT </label>
 				<?php }
 					else { ?>
-					<input type="checkbox" name="tipo[]" value = "HRT" id = "HRT"/><label for="HRT"> HRT </label> 
-				<?php }?>	
-				</div>			
+					<input type="checkbox" name="tipo[]" value = "HRT" id = "HRT"/><label for="HRT"> HRT </label>
+				<?php }?>
+				</div>
 			</div>
 			<div class = "fila">
 				<div class = "celda">
 				<?php if ( strstr($cadena, "Consulta") <> "") {?>
-					<input type="checkbox" name="tipo[]" value = "Consulta" id = "Consulta" checked/><label for="Consulta"> Consulta </label> 
+					<input type="checkbox" name="tipo[]" value = "Consulta" id = "Consulta" checked/><label for="Consulta"> Consulta </label>
 				<?php }
 					else { ?>
-					<input type="checkbox" name="tipo[]" value = "Consulta" id = "Consulta"/><label for="Consulta"> Consulta </label> 
-				<?php }?>		
+					<input type="checkbox" name="tipo[]" value = "Consulta" id = "Consulta"/><label for="Consulta"> Consulta </label>
+				<?php }?>
 				</div>
-				<div class = "celda" style = "margin-left:70px">
-				<?php if ( strstr($cadena, "S/Cargo") <> "") {?>
-					<input type="checkbox" name="tipo[]" value = "S/Cargo" id = "S/Cargo" checked/><label for="S/Cargo"> Sin Cargo </label> 
+				<div class = "celda_2">
+				<?php if ( strstr($cadena, "ARM") <> "") {?>
+					<input type="checkbox" name="tipo[]" value = "ARM" id = "ARM" checked/><label for="ARM"> ARM </label>
 				<?php }
 					else { ?>
-					<input type="checkbox" name="tipo[]" value = "S/Cargo" id = "S/Cargo"/><label for="S/Cargo"> Sin Cargo </label> 
-				<?php }?>		
-				</div>			
-			</div>			
+					<input type="checkbox" name="tipo[]" value = "ARM" id = "ARM"/><label for="ARM"> ARM </label>
+				<?php }?>
+				</div>
+				<div class = "celda">
+				<?php if ( strstr($cadena, "Tonom") <> "") {?>
+					<input type="checkbox" name="tipo[]" value = "Tonom" id = "Tonom" checked/><label for="Tonom"> Tonom </label>
+				<?php }
+					else { ?>
+					<input type="checkbox" name="tipo[]" value = "Tonom" id = "Tonom"/><label for="Tonom"> Tonom </label>
+				<?php }?>
+				</div>
+				<div class = "celda">
+				<?php if ( strstr($cadena, "EXO") <> "") {?>
+					<input type="checkbox" name="tipo[]" value = "EXO" id = "EXO" checked/><label for="EXO"> EXO </label>
+				<?php }
+					else { ?>
+					<input type="checkbox" name="tipo[]" value = "EXO" id = "EXO"/><label for="EXO"> EXO </label>
+				<?php }?>
+				</div>
+			</div>
+			<div class = "fila">
+				<div class = "celda">
+				<?php if ( strstr($cadena, "S/Cargo") <> "") {?>
+					<input type="checkbox" name="tipo[]" value = "S/Cargo" id = "S/Cargo" checked/><label for="S/Cargo"> Sin Cargo </label>
+				<?php }
+					else { ?>
+					<input type="checkbox" name="tipo[]" value = "S/Cargo" id = "S/Cargo"/><label for="S/Cargo"> Sin Cargo </label>
+				<?php }?>
+				</div>
+			</div>
 		</div>
-		<div id = "ul2">	
+		<div id = "ul2">
 			<ul>
 				<li>
-				</li>						
+				</li>
 				<li>
-					<?php 
+					<?php
 						$aux = explode(' - ', $filas[0]->medico);
 						$med = $aux[0];
 					?>
@@ -418,26 +444,26 @@
 						<select id = "medico" name = "medico">
 							<?php
 								foreach ($medicos as $medico) {
-									
+
 									if ($med == $medico->nombre) {
 										echo '<option value="'.$medico->nombre.'" selected="selected">'.$medico->nombre.'</option>';
 									}
 									else {
-										echo '<option>'.$medico->nombre.'</option>';	
-									}									
+										echo '<option>'.$medico->nombre.'</option>';
+									}
 								}
-							?>	
+							?>
 						</select>
 						<?php if ($med == "Otro") {
 							echo '<div id = "test">';
 								echo '<input type="text" value = "'.$aux[1].'" size = "14" name="otro" id="otro" style="text-transform:capitalize" autocomplete="off"/>';
-							echo '</div>'; 
-						} 
-						else { ?>	
+							echo '</div>';
+						}
+						else { ?>
 							<div id = "test" style = "display: none">
 								<input type="text" size = "14" name="otro" id = "otro" style="text-transform:capitalize" autocomplete="off"/>
 							</div>
-						<?php }?>	
+						<?php }?>
 				</li>
 				<li>
 					<label for="obra"><font color = "red">* </font> Obra social:</label>
@@ -461,19 +487,19 @@
 					<?php
 						$aux = explode('-',$filas[0]->tel1);
 						$tel1_1 = $aux[0];
-						$tel1_2 = $aux[1]; 
-						
+						$tel1_2 = $aux[1];
+
 						$aux2 = explode('-',$filas[0]->tel2);
 						$tel2_1 = $aux2[0];
-						if ($tel2_1 == "") 
+						if ($tel2_1 == "")
 						{
 							$tel2_2 = "";
 						}
-						else 
+						else
 						{
 							$tel2_2 = $aux2[1];
 						}
-					
+
 					?>
 	            	<label for="tel1_1"><font color = "red">* </font> Teléfono 1:</label>
 	            	<input type="tel" size="3" maxlength = "5" name="tel1_1" id="tel1_1" value="<?php echo $tel1_1?>" autocomplete="off" onFocus="if (this.value=='0341') this.value='';" required pattern=".{3,}"/>
